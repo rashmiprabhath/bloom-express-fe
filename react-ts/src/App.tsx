@@ -13,8 +13,8 @@ function App() {
         <div className="navbar-container">
           <h1 className="logo">Bloom<span className="highlight">Express</span></h1>
           <ul className="menu-item-list">
-            <li><a href="/api/v1/health">Shop</a></li>
-            <li><a href="/api/v1/generate">About</a></li>
+            <li><a href="/shop">Shop</a></li>
+            <li><a href="/home">About</a></li>
           </ul>
         </div>
       </nav>
@@ -93,6 +93,31 @@ function App() {
           </ul>
         </div>
       </div>
+
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-section">
+            <h2>Bloom<span className="highlight-footer">Express</span></h2>
+            <p>Your one-stop destination for discovering the best shops and brands near you.</p>
+          </div>
+          <div className="footer-section">
+            <h3>Contact Us</h3>
+            <p>Email: support@bloomexpress.com</p>
+            <p>Phone: +1 234 567 8900</p>
+          </div>
+          <div className="footer-section">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="/home">About Us</a></li>
+              <li><a href="/contact">Contacts</a></li>
+              <li><a href="/terms">Terms & Conditions</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p>&copy; {new Date().getFullYear()} BloomExpress. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }

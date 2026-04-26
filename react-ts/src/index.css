@@ -50,17 +50,19 @@ a:hover {
 /* Navbar */
 .navbar {
   background-color: var(--nav-bg);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: 0;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+  position: relative;
   z-index: 100;
+  border-radius: 16px;
+  margin: 20px auto;
+  max-width: 1140px;
 }
 
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
+  padding: 15px 30px;
 }
 
 .logo {
@@ -234,4 +236,66 @@ a:hover {
   .shop-list {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
+}
+
+/* Footer Area */
+.footer {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 60px 40px 20px;
+  margin-top: 60px;
+  border-radius: 20px 20px 0 0;
+  font-family: inherit;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-section h2, .footer-section h3 {
+  color: #fff;
+  margin-bottom: 20px;
+  font-family: "Montserrat", sans-serif;
+}
+
+.footer-section p {
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 12px;
+}
+
+.footer-section ul li a {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  transition: color var(--transition-speed);
+}
+
+.footer-section ul li a:hover {
+  color: var(--secondary-color);
+}
+
+.highlight-footer {
+  color: var(--secondary-color);
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
 }
