@@ -1,0 +1,119 @@
+.montserrat-example {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.open-sans-example {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
+}
+
+body {
+    background-color: #ffffff; /* Light gray background */
+    color: #112D4E; /* Dark text color for contrast */
+    margin: 0;
+    padding: 20px;
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-size: medium;
+    margin: 0  100px 0  100px;
+}
+
+h1 {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+a {
+    text-decoration: none;
+    color: #112D4E; /* Dark text color for links */
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff; /* Light blue background for navbar */
+}
+
+.highlight {
+    color: #3F72AF;
+    /* Tomato color for highlighting */
+}
+
+.menu-item-list {
+    list-style: none;
+    display: flex;
+    gap: 20px; /* Add some spacing between menu items */
+    padding: 0;
+    margin: 0;
+}
+
+.action-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.searchbar {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 400px; /* Set a fixed width for the search bar */
+}
+
+.category-title {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    color: #112D4E; /* Tomato color for category titles */
+}
+
+.main-category {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.main-category-item {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    color: #112D4E; /* Dark text color for main category items */
+    display: inline-block; /* Set a fixed width for each category item */
+    height: 20px; /* Set a fixed height for each category item */
+    margin-right: 20px; /* Add some spacing between category items */
+}
+
+.shop-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.shop-image {
+    width: 400px; /* Set a fixed width for the image */
+    height: 300px; /* Set a fixed height for the image */
+    object-fit: cover; /* Ensure the image covers the entire area without distortion */
+    border-radius: 8px; /* Add rounded corners to the image */
+}
+
+.shop-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Create a responsive grid with a minimum column width of 400px */
+    gap: 10px; /* Add some spacing between grid items */
+    margin-top: 20px; /* Add some spacing above the grid */
+}
