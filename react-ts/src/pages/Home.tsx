@@ -45,6 +45,11 @@ const Home = () => {
     setSelectedCategory(category);
   };
 
+  const handleShopClick = (shopId: number) => {
+    fetch(`/api/shops/${shopId}/click`, { method: 'POST' })
+      .catch(err => console.error('Failed to log click:', err));
+  };
+
   return (
     <>
       <div className="action-container">
@@ -105,7 +110,12 @@ const Home = () => {
             {shops.length > 0 ? (
               shops.map(shop => (
                 <li key={shop.id}>
-                  <a target="_blank" rel="noopener noreferrer" href={shop.pageLink}>
+                  <a 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    href={shop.pageLink}
+                    onClick={() => handleShopClick(shop.id)}
+                  >
                     <div className="shop-card">
                       <img 
                         className="shop-image" 
