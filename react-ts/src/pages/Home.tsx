@@ -1,4 +1,4 @@
-
+import { useState, useEffect } from 'react';
 import mimosaImg from '../assets/images/mimosa.webp';
 import simplytekImg from '../assets/images/simplytek.webp';
 import spaceylonImg from '../assets/images/spaceylon.webp';
@@ -6,17 +6,45 @@ import dominosImg from '../assets/images/dominos.webp';
 import nikeImg from '../assets/images/nike.webp';
 import nolimitImg from '../assets/images/nolimit.webp';
 
+interface Category {
+  id: number;
+  name: String;
+}
+
 const Home = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    fetch('/api/categories')
+      .then(res => res.json())
+      .then(data => setCategories(data))
+      .catch(err => console.error('Failed to fetch categories:', err));
+  }, []);
+
+  const visibleCategories = categories.slice(0, 4);
+  const otherCategories = categories.slice(4);
+
   return (
     <>
       <div className="action-container">
         <div className="category-container">
           <ul className="main-category">
-            <li className="main-category-item"><a href="#all">All</a></li>
-            <li className="main-category-item"><a href="#features">Features</a></li>
-            <li className="main-category-item"><a href="#men">Men</a></li>
-            <li className="main-category-item"><a href="#women">Women</a></li>
-            <li className="main-category-item"><a href="#dining">Dining and Restaurant</a></li>
+            <li className="main-category-item"><a href="#all" onClick={(e) => e.preventDefault()}>All</a></li>
+            {visibleCategories.map(cat => (
+              <li key={cat.id} className="main-category-item">
+                <a href={`#${cat.name}`} onClick={(e) => e.preventDefault()}>{cat.name}</a>
+              </li>
+            ))}
+            {otherCategories.length > 0 && (
+              <li className="category-dropdown">
+                <span className="dropdown-trigger">Other</span>
+                <div className="dropdown-content">
+                  {otherCategories.map(cat => (
+                    <a key={cat.id} href={`#${cat.name}`} onClick={(e) => e.preventDefault()}>{cat.name}</a>
+                  ))}
+                </div>
+              </li>
+            )}
           </ul>
         </div>
         <div className="searchbar-container">
