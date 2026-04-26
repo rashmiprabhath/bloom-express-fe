@@ -299,3 +299,35 @@ a:hover {
   color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
 }
+
+/* About Page */
+.about-container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 40px;
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+  text-align: center;
+}
+
+.about-title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.about-subtitle {
+  font-size: 18px;
+  color: var(--secondary-color);
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.about-content p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--muted-text);
+  margin-bottom: 20px;
+}
