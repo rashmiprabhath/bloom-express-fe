@@ -140,7 +140,8 @@ a:hover {
   display: inline-block;
 }
 
-.main-category-item a:hover {
+.main-category-item a:hover,
+.main-category-item a.active {
   background-color: var(--secondary-color);
   color: #fff;
   border-color: var(--secondary-color);
@@ -194,7 +195,8 @@ a:hover {
   font-size: 14px;
 }
 
-.dropdown-content a:hover {
+.dropdown-content a:hover,
+.dropdown-content a.active {
   background-color: var(--bg-color);
   color: var(--secondary-color);
 }

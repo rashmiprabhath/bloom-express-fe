@@ -1,18 +1,22 @@
 import { useState, useEffect } from 'react';
 import mimosaImg from '../assets/images/mimosa.webp';
-import simplytekImg from '../assets/images/simplytek.webp';
-import spaceylonImg from '../assets/images/spaceylon.webp';
-import dominosImg from '../assets/images/dominos.webp';
-import nikeImg from '../assets/images/nike.webp';
-import nolimitImg from '../assets/images/nolimit.webp';
 
 interface Category {
   id: number;
-  name: String;
+  name: string;
+}
+
+interface Shop {
+  id: number;
+  name: string;
+  imageUrl: string;
+  pageLink: string;
 }
 
 const Home = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [shops, setShops] = useState<Shop[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
   useEffect(() => {
     fetch('/api/categories')
@@ -21,18 +25,49 @@ const Home = () => {
       .catch(err => console.error('Failed to fetch categories:', err));
   }, []);
 
+  useEffect(() => {
+    const url = selectedCategory 
+      ? `/api/shops?categoryId=${selectedCategory.id}` 
+      : '/api/shops';
+    
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        setShops(data.content || []);
+      })
+      .catch(err => console.error('Failed to fetch shops:', err));
+  }, [selectedCategory]);
+
   const visibleCategories = categories.slice(0, 4);
   const otherCategories = categories.slice(4);
+
+  const handleCategoryClick = (category: Category | null) => {
+    setSelectedCategory(category);
+  };
 
   return (
     <>
       <div className="action-container">
         <div className="category-container">
           <ul className="main-category">
-            <li className="main-category-item"><a href="#all" onClick={(e) => e.preventDefault()}>All</a></li>
+            <li className="main-category-item">
+              <a 
+                href="#all" 
+                className={selectedCategory === null ? 'active' : ''}
+                onClick={(e) => { e.preventDefault(); handleCategoryClick(null); }}
+              >
+                All
+              </a>
+            </li>
             {visibleCategories.map(cat => (
               <li key={cat.id} className="main-category-item">
-                <a href={`#${cat.name}`} onClick={(e) => e.preventDefault()}>{cat.name}</a>
+                <a 
+                  href={`#${cat.name}`} 
+                  className={selectedCategory?.id === cat.id ? 'active' : ''}
+                  onClick={(e) => { e.preventDefault(); handleCategoryClick(cat); }}
+                >
+                  {cat.name}
+                </a>
               </li>
             ))}
             {otherCategories.length > 0 && (
@@ -40,7 +75,14 @@ const Home = () => {
                 <span className="dropdown-trigger">Other</span>
                 <div className="dropdown-content">
                   {otherCategories.map(cat => (
-                    <a key={cat.id} href={`#${cat.name}`} onClick={(e) => e.preventDefault()}>{cat.name}</a>
+                    <a 
+                      key={cat.id} 
+                      href={`#${cat.name}`} 
+                      className={selectedCategory?.id === cat.id ? 'active' : ''}
+                      onClick={(e) => { e.preventDefault(); handleCategoryClick(cat); }}
+                    >
+                      {cat.name}
+                    </a>
                   ))}
                 </div>
               </li>
@@ -48,66 +90,40 @@ const Home = () => {
           </ul>
         </div>
         <div className="searchbar-container">
-          <input 
-            type="text" 
-            placeholder="Search for shops, brands and more..." 
+          <input
+            type="text"
+            placeholder="Search for shops, brands and more..."
             className="searchbar"
           />
         </div>
       </div>
 
       <div>
-        <p className="category-title">Featured</p>
+        <p className="category-title">{selectedCategory ? selectedCategory.name : 'All'}</p>
         <div className="main-grid-container">
           <ul className="shop-list">
-            <li>
-              <a target="_blank" rel="noopener noreferrer" href="https://mimosaforever.com/">
-                <div className="shop-card">
-                  <img className="shop-image" src={mimosaImg} alt="Mimosa"/> 
-                  <p>Mimosa</p> 
-                </div>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" rel="noopener noreferrer" href="https://www.simplytek.lk/">
-                <div className="shop-card">
-                  <img className="shop-image" src={simplytekImg} alt="SimplyTek" />
-                  <p>SimplyTek</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" rel="noopener noreferrer" href="https://lk.spaceylon.com/">
-                <div className="shop-card">
-                  <img className="shop-image" src={spaceylonImg} alt="Spaceylon" />
-                  <p>Spaceylon</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" rel="noopener noreferrer" href="https://m.dominoslk.com/">
-                <div className="shop-card">
-                  <img className="shop-image" src={dominosImg} alt="Dominos" />
-                  <p>Dominos</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" rel="noopener noreferrer" href="https://www.nike.com/lk/">
-                <div className="shop-card">
-                  <img className="shop-image" src={nikeImg} alt="Nike" />
-                  <p>Nike</p>
-                </div>
-              </a>
-            </li>
-            <li>
-              <a target="_blank" rel="noopener noreferrer" href="https://www.nolimit.com/">
-                <div className="shop-card">
-                  <img className="shop-image" src={nolimitImg} alt="Nolimit" />
-                  <p>Nolimit</p>
-                </div>
-              </a>
-            </li>
+            {shops.length > 0 ? (
+              shops.map(shop => (
+                <li key={shop.id}>
+                  <a target="_blank" rel="noopener noreferrer" href={shop.pageLink}>
+                    <div className="shop-card">
+                      <img 
+                        className="shop-image" 
+                        src={shop.imageUrl.startsWith('http') ? shop.imageUrl : `/src/assets/images/${shop.imageUrl}`} 
+                        alt={shop.name}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = mimosaImg;
+                        }}
+                      /> 
+                      <p>{shop.name}</p> 
+                    </div>
+                  </a>
+                </li>
+              ))
+            ) : (
+              <p>No shops found in this category.</p>
+            )}
           </ul>
         </div>
       </div>
