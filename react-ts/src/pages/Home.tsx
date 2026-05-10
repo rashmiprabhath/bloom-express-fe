@@ -17,6 +17,7 @@ const Home = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [shops, setShops] = useState<Shop[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetch('/api/categories')
@@ -26,17 +27,23 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const url = selectedCategory 
-      ? `/api/shops?categoryId=${selectedCategory.id}` 
-      : '/api/shops';
+    const params = new URLSearchParams();
+    if (selectedCategory) params.append('categoryId', selectedCategory.id.toString());
+    if (searchTerm) params.append('searchTerm', searchTerm);
     
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        setShops(data.content || []);
-      })
-      .catch(err => console.error('Failed to fetch shops:', err));
-  }, [selectedCategory]);
+    const url = `/api/shops?${params.toString()}`;
+    
+    const handler = setTimeout(() => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          setShops(data.content || []);
+        })
+        .catch(err => console.error('Failed to fetch shops:', err));
+    }, 300); // Debounce for 300ms
+
+    return () => clearTimeout(handler);
+  }, [selectedCategory, searchTerm]);
 
   const visibleCategories = categories.slice(0, 4);
   const otherCategories = categories.slice(4);
@@ -99,12 +106,16 @@ const Home = () => {
             type="text"
             placeholder="Search for shops, brands and more..."
             className="searchbar"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
 
       <div>
-        <p className="category-title">{selectedCategory ? selectedCategory.name : 'All'}</p>
+        <p className="category-title">
+          {searchTerm ? `Results for "${searchTerm}"` : (selectedCategory ? selectedCategory.name : 'All')}
+        </p>
         <div className="main-grid-container">
           <ul className="shop-list">
             {shops.length > 0 ? (
@@ -132,7 +143,9 @@ const Home = () => {
                 </li>
               ))
             ) : (
-              <p>No shops found in this category.</p>
+              <p className="empty-state" style={{gridColumn: '1/-1', textAlign: 'center', padding: '40px', color: 'var(--muted-text)'}}>
+                No shops found matching your criteria.
+              </p>
             )}
           </ul>
         </div>
